@@ -138,7 +138,7 @@ void ht_set(const ht_t *ht, const void *key, const size_t k_len, const void *val
 	h = hash(key, k_len);
 
 	for (i = 0; i < ht->size; i++){
-		slot = hash_to_index(ht, (h+1));
+		slot = hash_to_index(ht, (h+i));
 		if(ht->entries[slot].key == NULL){
 			ht->entries[slot].key = malloc(k_len);
 			ht->entries[slot].value = malloc(v_len);
@@ -171,7 +171,7 @@ void *ht_get(const ht_t *ht, const void *key, const size_t k_len)
 	h = hash(key, k_len);
 
 	for (size_t i = 0; i < ht->size; i++){
-		slot = hash_to_index(ht, (h+1));
+		slot = hash_to_index(ht, (h+i));
 		if(ht->entries[slot].key == NULL){
 			return NULL;
 		} else if(k_len == ht->entries[slot].k_len && memcmp(ht->entries[slot].key, key, k_len) == 0){
@@ -192,7 +192,7 @@ void ht_del(const ht_t *ht, const void *key, const size_t k_len)
 	h = hash(key, k_len);
 
 	for (size_t i = 0; i < ht->size; i++){
-		slot = hash_to_index(ht, (h+1));
+		slot = hash_to_index(ht, (h+i));
 		if(ht->entries[slot].key == NULL){
 			break;
 		} else if(k_len == ht->entries[slot].k_len && memcmp(ht->entries[slot].key, key, k_len) == 0){
