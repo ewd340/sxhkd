@@ -181,32 +181,6 @@ void *ht_get(const ht_t *ht, const void *key, const size_t k_len)
 	return NULL;
 }
 
-void ht_del(const ht_t *ht, const void *key, const size_t k_len)
-{
-	uint32_t h = 0;
-	size_t slot = 0;
-
-	if(ht == NULL || key == NULL || k_len == 0)
-		return;
-
-	h = hash(key, k_len);
-
-	for (size_t i = 0; i < ht->size; i++){
-		slot = hash_to_index(ht, (h+i));
-		if(ht->entries[slot].key == NULL){
-			break;
-		} else if(k_len == ht->entries[slot].k_len && memcmp(ht->entries[slot].key, key, k_len) == 0){
-			free(ht->entries[slot].key);
-			free(ht->entries[slot].value);
-			ht->entries[slot].key = NULL;
-			ht->entries[slot].value = NULL;
-			ht->entries[slot].k_len = 0;
-			ht->entries[slot].v_len = 0;
-			break;
-		}
-	}
-}
-
 void ht_destroy(ht_t *ht)
 {
 
